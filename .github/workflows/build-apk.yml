@@ -26,7 +26,7 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-            - name: Install Android SDK
+      - name: Install Android SDK
         run: |
           SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -n 1)"
           if [ -z "$SDKMANAGER" ]; then
