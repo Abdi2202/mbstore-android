@@ -1,0 +1,23 @@
+MBSTORE - PETUNJUK PEMASANGAN ANDROID
+
+ISI FOLDER
+- index.html: tampilan aplikasi
+- app.js: logika transaksi dan pembukuan
+- manifest.webmanifest: identitas aplikasi
+- sw.js: dukungan offline
+
+CARA PUBLISH MELALUI GITHUB PAGES
+1. Buka repository GitHub bernama mbstore.
+2. Pastikan keempat file di atas berada langsung di halaman utama repository (root), bukan di dalam folder lain.
+3. Buka Settings > Pages.
+4. Pada Build and deployment pilih Deploy from a branch.
+5. Branch: main, folder: /(root), lalu Save.
+6. Tunggu proses selesai. Buka alamat https://NAMA-USERNAME.github.io/mbstore/
+7. Di Chrome Android buka alamat itu, tekan menu titik tiga, lalu pilih "Tambahkan ke layar utama" atau "Install app".
+
+PENTING
+- Gunakan HTTPS/GitHub Pages agar instalasi dan mode offline bekerja.
+- Data transaksi disimpan di penyimpanan browser pada HP tersebut. Ekspor backup JSON secara berkala.
+- Jangan hapus data situs/browser atau pindah HP sebelum membuat dan memindahkan backup.
+- Closing harian menyimpan arsip; pergantian tanggal tidak menghapus transaksi atau saldo.
+- Saldo penjualan pulsa: saat input penjualan, aplikasi menambah saldo akun sebesar laba (harga jual - modal). Ini mengasumsikan modal pulsa sudah dibayar dari saldo provider sebelumnya. Untuk pencatatan yang lebih akurat, gunakan akun Pulsa Dataku sebagai akun penjualan dan input modal sesuai biaya sebenarnya.

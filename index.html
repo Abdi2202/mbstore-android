@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101b2d">
+<meta name="description" content="MBSTORE - Pembukuan konter pulsa offline">
+<link rel="manifest" href="manifest.webmanifest">
+<title>MBSTORE</title>
+<style>
+:root{--bg:#0b1220;--panel:#121e31;--panel2:#18263b;--line:#293951;--text:#f4f7fb;--muted:#9aabc0;--green:#28c58a;--red:#ff6878;--gold:#f5c76b;--blue:#71a7ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101d32,#09111e 65%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;padding-bottom:88px}
+header{padding:22px 18px 15px;display:flex;align-items:center;justify-content:space-between;max-width:850px;margin:auto}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#27c58b,#138e73);display:grid;place-items:center;font-weight:900;color:#06251d;box-shadow:0 8px 22px #1fbb8740}.brand b{font-size:19px;letter-spacing:1.4px}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.5px}
+main{max-width:850px;margin:auto;padding:0 15px}.date{color:var(--muted);font-size:12px;margin:4px 2px 12px}
+.hero{background:linear-gradient(135deg,#1a795f,#145747 55%,#123d3b);border:1px solid #2b987a;border-radius:22px;padding:19px;margin-bottom:13px;box-shadow:0 14px 34px #0003}.hero .label{font-size:12px;color:#d1f3e7}.hero h1{font-size:29px;margin:5px 0 14px;letter-spacing:.2px}.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hero-grid div{border-top:1px solid #ffffff30;padding-top:10px}.hero-grid span{display:block;font-size:11px;color:#d1f3e7}.hero-grid b{font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;min-width:0}.card .k{color:var(--muted);font-size:11px}.card strong{display:block;font-size:18px;margin-top:6px;overflow-wrap:anywhere}.positive{color:var(--green)}.negative{color:var(--red)}.section{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px}.section h2{font-size:16px;margin:0}.section small{color:var(--muted)}
+.accounts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.account{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px}.account .name{font-size:12px;color:var(--muted)}.account b{display:block;margin-top:5px;font-size:16px}.account button{margin-top:9px}
+button,.btn{border:0;border-radius:11px;padding:11px 13px;background:var(--green);color:#06251d;font-weight:750;font-size:13px;cursor:pointer}button.secondary{background:#263750;color:var(--text)}button.danger{background:#522733;color:#ffd9de}button.small{padding:7px 9px;font-size:11px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#101b2df2;backdrop-filter:blur(15px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));gap:3px}
+nav button{background:transparent;color:var(--muted);flex:1;max-width:150px;padding:9px 4px;font-size:11px}nav button.active{background:#1d3d39;color:#8af0c8}
+.page{display:none}.page.active{display:block}
+form{display:grid;gap:11px}.field{display:grid;gap:5px}.field label{font-size:12px;color:var(--muted)}input,select,textarea{width:100%;background:#0c1727;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit;min-width:0}input:focus,select:focus{outline:1px solid var(--green);border-color:var(--green)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hint{font-size:11px;color:var(--muted);line-height:1.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1}
+.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:11px}.item b{font-size:13px}.item small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.item .amount{text-align:right;white-space:nowrap;font-weight:750;font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:24px 10px;background:var(--panel);border:1px dashed var(--line);border-radius:14px;font-size:13px}
+.reportline{display:flex;justify-content:space-between;padding:10px 2px;border-bottom:1px solid var(--line);font-size:13px}.reportline span{color:var(--muted)}
+dialog{border:1px solid var(--line);border-radius:19px;background:var(--panel);color:var(--text);width:min(92%,460px);padding:19px;box-shadow:0 20px 70px #0009}dialog::backdrop{background:#0009}dialog h3{margin:0 0 14px}.close{float:right;background:#263750;color:white;padding:6px 10px}
+footer{text-align:center;color:#71839b;font-size:10px;padding:22px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,1fr)}.accounts{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">MB</div><div><b>MBSTORE</b><small>SMART STORE BOOKKEEPING</small></div></div><button class="secondary small" id="backupTop">Backup</button></header>
+<main>
+<section id="dashboard" class="page active">
+<div class="date" id="today"></div>
+<div class="hero"><div class="label">TOTAL MODAL BERJALAN</div><h1 id="totalCapital">Rp0</h1><div class="hero-grid"><div><span>Keuntungan bersih hari ini</span><b id="heroProfit">Rp0</b></div><div><span>Saldo akhir seluruh akun</span><b id="heroBalance">Rp0</b></div></div></div>
+<div class="grid">
+<div class="card"><div class="k">Pemasukan hari ini</div><strong class="positive" id="incomeToday">Rp0</strong></div>
+<div class="card"><div class="k">Pengeluaran hari ini</div><strong class="negative" id="expenseToday">Rp0</strong></div>
+<div class="card"><div class="k">Penjualan hari ini</div><strong id="salesToday">Rp0</strong></div>
+<div class="card"><div class="k">Jumlah transaksi</div><strong id="countToday">0</strong></div>
+</div>
+<div class="section"><h2>Saldo setiap akun</h2><small>Ketuk Ubah untuk koreksi saldo</small></div>
+<div class="accounts" id="accountCards"></div>
+<div class="section"><h2>Transaksi terbaru</h2><button class="secondary small" onclick="showPage('transactions')">Lihat semua</button></div>
+<div class="list" id="recentList"></div>
+</section>
+
+<section id="transactions" class="page">
+<div class="section"><h2>Tambah transaksi</h2><small>Otomatis tersimpan</small></div>
+<div class="card">
+<form id="txForm">
+<div class="field"><label>Jenis transaksi</label><select id="txType"><option value="sale">Penjualan pulsa / paket data</option><option value="income">Pemasukan lainnya</option><option value="expense">Pengeluaran</option><option value="transfer">Transfer antar akun</option></select></div>
+<div class="field"><label>Keterangan</label><input id="txNote" required placeholder="Contoh: Pulsa Telkomsel 10.000"></div>
+<div class="formgrid" id="saleFields">
+<div class="field"><label>Harga jual (Rp)</label><input id="salePrice" type="number" min="0" inputmode="numeric" placeholder="12000"></div>
+<div class="field"><label>Modal / harga beli (Rp)</label><input id="saleCost" type="number" min="0" inputmode="numeric" placeholder="10500"></div>
+</div>
+<div class="field" id="amountField"><label>Nominal (Rp)</label><input id="txAmount" type="number" min="1" inputmode="numeric" placeholder="50000"></div>
+<div class="formgrid" id="accountFields">
+<div class="field"><label>Akun masuk / penerima</label><select id="txAccount"></select></div>
+<div class="field"><label>Akun keluar / sumber</label><select id="txFrom"></select></div>
+</div>
+<div class="hint" id="txHint">Keuntungan penjualan dihitung otomatis dari harga jual dikurangi modal.</div>
+<button type="submit">Simpan transaksi</button>
+</form></div>
+<div class="section"><h2>Riwayat transaksi</h2><small id="txCount">0 transaksi</small></div>
+<div class="list" id="txList"></div>
+</section>
+
+<section id="closing" class="page">
+<div class="section"><h2>Closing harian</h2><small id="closingDate"></small></div>
+<div class="card">
+<div class="reportline"><span>Total pemasukan</span><b id="rIncome">Rp0</b></div>
+<div class="reportline"><span>Total pengeluaran</span><b id="rExpense">Rp0</b></div>
+<div class="reportline"><span>Omzet penjualan</span><b id="rSales">Rp0</b></div>
+<div class="reportline"><span>Modal barang terjual</span><b id="rCost">Rp0</b></div>
+<div class="reportline"><span>Keuntungan penjualan</span><b id="rGross">Rp0</b></div>
+<div class="reportline"><span>Keuntungan bersih</span><b class="positive" id="rNet">Rp0</b></div>
+<div class="reportline"><span>Saldo akhir seluruh akun</span><b id="rBalance">Rp0</b></div>
+<p class="hint">Closing menyimpan ringkasan hari ini ke arsip. Transaksi dan saldo tidak dihapus. Setelah tanggal berganti, hari baru dimulai otomatis.</p>
+<button id="closeDay">Simpan closing hari ini</button>
+</div>
+<div class="section"><h2>Arsip closing</h2><small>Riwayat harian</small></div><div class="list" id="closingList"></div>
+</section>
+
+<section id="settings" class="page">
+<div class="section"><h2>Pengaturan modal awal</h2><small>Atur sesuai saldo nyata</small></div>
+<div class="card"><p class="hint">Masukkan modal awal setiap akun. Mengubah modal awal akan menyesuaikan saldo berjalan dengan selisih perubahan, tanpa menghapus transaksi.</p><form id="capitalForm" class="list"></form></div>
+<div class="section"><h2>Data & keamanan</h2></div>
+<div class="card">
+<div class="actions"><button id="exportBtn">Ekspor backup</button><button class="secondary" id="importBtn">Impor backup</button><input type="file" id="importFile" accept="application/json" hidden></div>
+<p class="hint">Simpan file backup secara berkala di HP atau Google Drive. Data aplikasi tersimpan di perangkat ini. Menghapus data browser atau mengganti HP tanpa backup dapat menghilangkan data.</p>
+<div class="actions"><button class="secondary" id="installBtn" hidden>Pasang aplikasi</button><button class="danger" id="resetBtn">Reset seluruh data</button></div>
+</div>
+<footer>MBSTORE • Pembukuan Konter Pulsa • Versi 1.0</footer>
+</section>
+</main>
+<nav>
+<button class="active" data-page="dashboard">⌂<br>Beranda</button>
+<button data-page="transactions">＋<br>Transaksi</button>
+<button data-page="closing">▤<br>Closing</button>
+<button data-page="settings">⚙<br>Pengaturan</button>
+</nav>
+<dialog id="editDialog"><button class="close" onclick="document.getElementById('editDialog').close()">✕</button><h3 id="editTitle">Ubah saldo</h3><form id="editForm"><div class="field"><label>Saldo baru (Rp)</label><input id="editBalance" type="number" min="0" required inputmode="numeric"></div><p class="hint">Penyesuaian saldo akan dicatat sebagai koreksi modal dan tidak mengubah transaksi lama.</p><button>Simpan perubahan</button></form></dialog>
+<script src="app.js"></script>
+</body></html>
